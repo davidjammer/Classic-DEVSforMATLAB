@@ -57,8 +57,7 @@ classdef devs < handle
                 end
             end
             
-            DEVS = devs(mdl);
-            
+            DEVS = devs(mdl);          
         end
  %% message functions       
         function imessage(obj,t)
