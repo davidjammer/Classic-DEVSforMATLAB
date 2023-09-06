@@ -91,7 +91,6 @@ classdef devs < handle
                 end
     
                 obj.DEVS.dint();
-
                 if obj.debug_level == 1
                     disp('call ta()');
                 end
