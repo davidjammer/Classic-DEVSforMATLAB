@@ -1,0 +1,33 @@
+clear all;
+close all;
+clc;
+
+global DEBUGLEVEL
+global simout
+
+DEBUGLEVEL = 0;
+simout = [];
+
+A1 = devs(traffic_light_1("A1",0));
+TW1 = devs(toworkspace("tw1","out_A1",0));
+A2 = devs(traffic_light_1("A2",0));
+TW2 = devs(toworkspace("tw2","out_A2",0));
+N1 = coordinator("N1");
+N1.add_model(A1);
+N1.add_model(TW1);
+N1.add_model(A2);
+N1.add_model(TW2);
+
+N1.add_coupling("A1","out","tw1","in");
+N1.add_coupling("A2","out","tw2","in");
+
+root = rootcoordinator("root",0,600,N1,0);
+
+root.sim();
+
+figure
+stairs(simout.out_A1.t, arrayfun(@(x)((x=="show_green")*1+(x=="show_yellow")*2+(x=="show_red")*3),simout.out_A1.y));
+grid on;
+yticks([1,2,3]);
+yticklabels({'green','yellow','red'});
+ylim([0.9,3.1]);
