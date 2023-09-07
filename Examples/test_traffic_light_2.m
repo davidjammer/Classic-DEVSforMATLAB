@@ -4,17 +4,24 @@ clc;
 
 global DEBUGLEVEL
 global simout
+global simin
 
 DEBUGLEVEL = 0;
 simout = [];
 
-A1 = devs(traffic_light_1("A1",0));
+simin.in.t = [250,400];
+simin.in.y = ["manual","automatic"];
+
+A1 = devs(traffic_light_2("A1",0));
 TW1 = devs(toworkspace("tw1","out_A1",0));
+FromWorkspace = devs(fromworkspace("fw1","in",0));
 
 N1 = coordinator("N1");
 N1.add_model(A1);
 N1.add_model(TW1);
+N1.add_model(FromWorkspace);
 
+N1.add_coupling("fw1","out","A1","in");
 N1.add_coupling("A1","out","tw1","in");
 
 root = rootcoordinator("root",0,600,N1,0);

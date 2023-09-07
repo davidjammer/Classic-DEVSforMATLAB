@@ -175,7 +175,7 @@ classdef coordinator < handle
           if isempty(obj.Select)
               obj.dstar = def_select(obj.IMM);
           else
-              obj.dstar = obj.Select(obj.IMM);
+              obj.dstar = feval(@obj.Select,obj.IMM);
           end
 
           obj.dstar.smessage(t);
@@ -184,6 +184,18 @@ classdef coordinator < handle
           obj.tl = t;
           obj.tn = min(obj.eventlist(:,2));
 
+       end
+
+       function check_mail(obj)
+		  %delete empty y-messages from mail
+		  j=1;
+		  while (j <= length(obj.mail))
+			 if(isempty(obj.mail(j).y))
+				obj.mail(j) = [];
+			 else
+				j = j+1;
+			 end
+		  end
        end
 
        function check_external_couplings(obj)
@@ -258,7 +270,8 @@ classdef coordinator < handle
   		 if obj.debug_level == 1
   			disp(['coordinator: ' obj.name ' receive y-messages from child d*']);
          end
-
+         
+         obj.check_mail();
          obj.check_external_couplings();
          obj.check_internal_couplings();
 
