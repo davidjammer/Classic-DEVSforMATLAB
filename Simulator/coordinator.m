@@ -285,7 +285,7 @@ classdef coordinator < handle
          end
 
          for r=1:length(obj.receivers)
-             idx = find_mdl_in_D(obj.D, obj.receivers(r).name);
+             idx = find_mdl_in_cell(obj.D, obj.receivers(r).name);
              if(~isempty(idx))
                  if obj.debug_level == 1
                      disp(['coordinator: ' obj.name ' send x-messages to child: ' obj.D{idx}.get_name ' value: ']);
@@ -347,7 +347,7 @@ classdef coordinator < handle
 
                %send x-message for receivers
                for r=1:length(obj.receivers)
-                   idx = find_mdl_in_D(obj.D, obj.receivers(r).name);
+                   idx = find_mdl_in_cell(obj.D, obj.receivers(r).name);
                    if(~isempty(idx))
                        if obj.debug_level == 1
                            disp(['coordinator: ' obj.name ' send x-messages to child: ' obj.D{idx}.get_name ' value: ']);
